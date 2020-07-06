@@ -10,6 +10,8 @@ const request = require('supertest');
 const app = require('../lib/app');
 const User = require('../lib/models/User');
 
+const agent = request.agent(app);
+
 beforeAll(async() => {
   const uri = await mongod.getUri();
   return connect(uri);
@@ -23,12 +25,11 @@ beforeEach(() => {
   return seed();
 });
 
-const agent = request.agent(app);
 beforeEach(() => {
   return agent
     .post('/api/v1/auth/login')
     .send({
-      username: 'test',
+      username: 'test0',
       password: 'password'
     });
 });
@@ -46,7 +47,7 @@ const prepare = model => {
   return prepareOne(model);
 };
 
-const getLoggedInUser = () => User.findOne({ username: 'test' });
+const getLoggedInUser = () => User.findOne({ username: 'test0' });
 
 module.exports = {
   agent,
