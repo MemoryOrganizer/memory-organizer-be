@@ -15,9 +15,7 @@ describe('memory routes', () => {
       })
       .then(res => {
         expect(res.body).toEqual({
-          '__v': 0,
           '_id': expect.anything(),
-          'id': expect.anything(),
           'description': 'hehe',
           'participants': expect.any(Array),
           'tags': expect.any(Array),
