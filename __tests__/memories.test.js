@@ -38,4 +38,38 @@ describe('memory routes', () => {
       })
   })
 
+  it('can get a memory by id', async() => {
+    const loggedInUser = await getLoggedInUser();
+    const memory = prepare(await Memory.findOne({ user: loggedInUser._id }))
+
+    return agent
+      .get(`/api/v1/memories/${memory._id}`)
+      .then(res => {
+        expect(res.body).toEqual(memory);
+      })
+  })
+
+  it('can update a memory by id via PATCH', async() => {
+    const loggedInUser = await getLoggedInUser();
+    const memory = prepare(await Memory.findOne({ user: loggedInUser._id }))
+
+    return agent
+      .patch(`/api/v1/memories/${memory._id}`)
+      .send({
+        title: 'new title'
+      })
+      .then(res => {
+        expect(res.body).toEqual({ ...memory, title: 'new title' });
+      })
+  })
+  it('can delete a memory by id', async() => {
+    const loggedInUser = await getLoggedInUser();
+    const memory = prepare(await Memory.findOne({ user: loggedInUser._id }))
+
+    return agent
+      .delete(`/api/v1/memories/${memory._id}`)
+      .then(res => {
+        expect(res.body).toEqual(memory);
+      })
+  })
 })
