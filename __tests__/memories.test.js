@@ -2,6 +2,7 @@ const { agent,  prepare, getLoggedInUser } = require('../db/data-helpers');
 const request = require('supertest');
 const app = require('../lib/app');
 const Memory = require('../lib/models/Memory');
+const { find } = require('../lib/models/Memory');
 
 describe('memory routes', () => {
   it('will make a new memory', async() => {
@@ -35,7 +36,7 @@ describe('memory routes', () => {
       }));
 
     return agent
-      .get('/api/v1/memories')
+      .get('/api/v1/memories?search[]=memory-tag&search[]=tree')
       .then(res => {
         expect(res.body).toEqual(memories);
       });
