@@ -32,7 +32,7 @@ module.exports = async({ users = 5, memories = 20, photos = 25, shares = 10 } = 
     url: chance.url
   })));
 
-  const createdShares = await Share.create([...Array(shares)].map(() => ({
+  await Share.create([...Array(shares)].map(() => ({
     memory: chance.pickone(createdMemories)._id,
     user: chance.pickone(createdUsers)._id,
     sharedWith: chance.pickone(createdUsers)
