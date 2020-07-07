@@ -15,9 +15,7 @@ describe('memory routes', () => {
       })
       .then(res => {
         expect(res.body).toEqual({
-          '__v': 0,
           '_id': expect.anything(),
-          'id': expect.anything(),
           'description': 'hehe',
           'participants': expect.any(Array),
           'tags': expect.any(Array),
@@ -30,7 +28,11 @@ describe('memory routes', () => {
 
   it('will get all of a logged in users memories', async() => {
     const loggedInUser = await getLoggedInUser();
-    const memories = prepare(await Memory.find({ user: loggedInUser._id }));
+    const memories = prepare(await Memory.find({ user: loggedInUser._id })
+      .populate({
+        path: 'photos',
+        select: { _id: true, tags: true, url: true }
+      }));
 
     return agent
       .get('/api/v1/memories')
@@ -41,7 +43,12 @@ describe('memory routes', () => {
 
   it('can get a memory by id', async() => {
     const loggedInUser = await getLoggedInUser();
-    const memory = prepare(await Memory.findOne({ user: loggedInUser._id }));
+    const memory = prepare(await Memory.findOne({ user: loggedInUser._id })
+      .populate({
+        path: 'photos',
+        select: { _id: true, tags: true, url: true }
+      }));
+
 
     return agent
       .get(`/api/v1/memories/${memory._id}`)
@@ -64,6 +71,17 @@ describe('memory routes', () => {
       });
   });
   it('can delete a memory by id', async() => {
+    const loggedInUser = await getLoggedInUser();
+    const memory = prepare(await Memory.findOne({ user: loggedInUser._id }));
+
+    return agent
+      .delete(`/api/v1/memories/${memory._id}`)
+      .then(res => {
+        expect(res.body).toEqual(memory);
+      });
+  });
+
+  it('can Delete a pho by id', async() => {
     const loggedInUser = await getLoggedInUser();
     const memory = prepare(await Memory.findOne({ user: loggedInUser._id }));
 
