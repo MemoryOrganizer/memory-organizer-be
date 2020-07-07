@@ -1,27 +1,4 @@
 const { agent,  prepare, getLoggedInUser } = require('../db/data-helpers');
-<<<<<<< HEAD
-const request = require('supertest');
-const app = require('../lib/app');
-const Share = require('../lib/models/Share');
-
-
-describe('Share routes', () => {
-    it('Creates share with POST', async() => {
-
-    });
-    
-    it('Retrieves share with GET', async() => {
-
-    });
-    
-    it('Updates share with PATCH', async() => {
-
-    });
-    
-    it('Delete a share with DELETE', async() => {
-        
-    });
-=======
 const Share = require('../lib/models/Share');
 const User = require('../lib/models/User');
 const Memory = require('../lib/models/Memory');
@@ -62,7 +39,7 @@ describe('Share routes', () => {
         });
       });
   });
-    
+
   it('Retrieves shares with GET', async() => {
     const loggedInUser = await getLoggedInUser();
     const shared = prepare(await Share.find({ user: loggedInUser._id }));
@@ -84,7 +61,7 @@ describe('Share routes', () => {
         expect(res.body).toEqual(share);
       });
   });
-    
+
   it('Updates share with PATCH', async() => {
     const loggedInUser = await getLoggedInUser();
     const share = prepare(await Share.findOne({ user: loggedInUser._id }));
@@ -104,7 +81,7 @@ describe('Share routes', () => {
         });
       });
   });
-    
+
   it('Delete a share with DELETE', async() => {
     const loggedInUser = await getLoggedInUser();
     const share = prepare(await Share.findOne({ user: loggedInUser._id }));
@@ -115,5 +92,4 @@ describe('Share routes', () => {
         expect(res.body).toEqual(share);
       });
   });
->>>>>>> fc6d9f5c9213c301d7943a53d397dba8dbba8d94
 });
