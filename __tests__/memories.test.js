@@ -29,6 +29,7 @@ describe('memory routes', () => {
 
   it('will get all of a logged in users memories', async() => {
     const loggedInUser = await getLoggedInUser();
+    
     const memories = prepare(await Memory.find({ user: loggedInUser._id })
       .populate({
         path: 'photos',
@@ -36,7 +37,7 @@ describe('memory routes', () => {
       }));
 
     return agent
-      .get('/api/v1/memories?search[]=memory-tag&search[]=tree')
+      .get('/api/v1/memories')
       .then(res => {
         expect(res.body).toEqual(memories);
       });

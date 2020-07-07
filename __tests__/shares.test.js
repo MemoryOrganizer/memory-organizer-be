@@ -4,10 +4,11 @@ const User = require('../lib/models/User');
 const Memory = require('../lib/models/Memory');
 
 describe('Share routes', () => {
+  
   beforeEach(async() => {
     const loggedInUser = await getLoggedInUser();
     const sharer = prepare(await User.findOne({ _id: loggedInUser._id }));
-    const memory = prepare(await Memory.findOne({ user: loggedInUser._id }));
+    const memory = prepare(await Memory.create({ user: loggedInUser._id, title: 'testin title' }));
     const sharee = prepare(await User.findOne());
     return agent
       .post('/api/v1/shares')

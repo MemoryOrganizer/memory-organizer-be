@@ -90,7 +90,7 @@ describe('photo routes', () => {
       });
   });
 
-  it.only('Delete a photo with a Memory id vea Delete', async() => {
+  it('Delete a photo with a Memory id vea Delete', async() => {
     const loggedInUser = await getLoggedInUser();
     const memory = prepare(await Memory.create({
       user: loggedInUser._id,
@@ -111,7 +111,7 @@ describe('photo routes', () => {
       });
   });
 
-  it.only('Patch a photo with a User id vea PUT', async() => {
+  it('Patch a photo with a User id vea PUT', async() => {
     const loggedInUser = await getLoggedInUser();
     const photos = prepare(await Photo.findOne({ user: loggedInUser._id }));
 
