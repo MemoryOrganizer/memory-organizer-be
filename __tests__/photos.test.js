@@ -2,6 +2,11 @@ const { agent,  prepare, getLoggedInUser } = require('../db/data-helpers');
 const Photo = require('../lib/models/Photo');
 const Memory = require('../lib/models/Memory');
 
+jest.mock('../lib/middleware/multerUpload.js', () => (req, res, next) => {
+  req.file = {};
+  next();
+});
+
 describe('photo routes', () => {
   it('will make a photo via POST', async() => {
     const loggedInUser = await getLoggedInUser();
@@ -10,7 +15,6 @@ describe('photo routes', () => {
       .post('/api/v1/photos')
       .send({
         memory: memory._id,
-        url: 'picture.png',
         tags: ['#supercoding']
       })
       .then(res => expect(res.body).toEqual({
@@ -18,7 +22,7 @@ describe('photo routes', () => {
         _id: expect.anything(),
         user: loggedInUser.id,
         memory: memory._id,
-        url: 'picture.png',
+        url: 'hi',
         tags: ['#supercoding']
       }));
   });
