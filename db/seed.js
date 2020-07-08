@@ -2,6 +2,7 @@ const chance = require('chance').Chance();
 const User = require('../lib/models/User');
 const Memory = require('../lib/models/Memory');
 const Photo = require('../lib/models/Photo');
+const Share = require('../lib/models/Share');
 
 module.exports = async({ users = 5, memories = 20, photos = 25, shares = 10 } = {}) => {
   const tags = ['fun', 'tree', 'happy'];
@@ -16,7 +17,7 @@ module.exports = async({ users = 5, memories = 20, photos = 25, shares = 10 } = 
     user: chance.pickone(createdUsers)._id,
     title: chance.word(),
     description: chance.sentence(),
-    tags: [chance.hashtag],
+    tags: [chance.hashtag(), 'memory-tag'],
     date: chance.date(),
     location: chance.state(),
     participants: [chance.name(), chance.name()],
@@ -28,12 +29,12 @@ module.exports = async({ users = 5, memories = 20, photos = 25, shares = 10 } = 
     memory: chance.pickone(createdMemories)._id,
     user: chance.pickone(createdUsers)._id,
     tags: chance.pickset(tags, 2),
-    url: chance.url
+    url: chance.url()
   })));
 
-  const createdPhotos = await Photo.create([...Array(photos)].map(() => ({
+  await Share.create([...Array(shares)].map(() => ({
     memory: chance.pickone(createdMemories)._id,
     user: chance.pickone(createdUsers)._id,
-    userAccess: [chance.pickset(createdUsers, 2)]
+    sharedWith: chance.pickone(createdUsers)
   })));
 };
