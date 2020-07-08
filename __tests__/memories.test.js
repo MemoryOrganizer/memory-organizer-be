@@ -61,7 +61,7 @@ describe('memory routes', () => {
 
   it('can update a memory by id via PATCH', async() => {
     const loggedInUser = await getLoggedInUser();
-    const memory = prepare(await Memory.findOne({ user: loggedInUser._id }));
+    const memory = prepare(await Memory.create({ user: loggedInUser._id, title: 'tester memory' }));
 
     return agent
       .patch(`/api/v1/memories/${memory._id}`)
