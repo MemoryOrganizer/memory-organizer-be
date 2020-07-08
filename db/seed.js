@@ -17,7 +17,7 @@ module.exports = async({ users = 5, memories = 20, photos = 25, shares = 10 } = 
     user: chance.pickone(createdUsers)._id,
     title: chance.word(),
     description: chance.sentence(),
-    tags: [chance.hashtag],
+    tags: [chance.hashtag(), 'memory-tag'],
     date: chance.date(),
     location: chance.state(),
     participants: [chance.name(), chance.name()],
@@ -29,7 +29,7 @@ module.exports = async({ users = 5, memories = 20, photos = 25, shares = 10 } = 
     memory: chance.pickone(createdMemories)._id,
     user: chance.pickone(createdUsers)._id,
     tags: chance.pickset(tags, 2),
-    url: chance.url
+    url: chance.url()
   })));
 
   await Share.create([...Array(shares)].map(() => ({

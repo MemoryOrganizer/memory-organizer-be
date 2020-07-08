@@ -2,6 +2,7 @@ const { agent,  prepare, getLoggedInUser } = require('../db/data-helpers');
 const request = require('supertest');
 const app = require('../lib/app');
 const Memory = require('../lib/models/Memory');
+const { find } = require('../lib/models/Memory');
 
 describe('memory routes', () => {
   it('will make a new memory', async() => {
@@ -28,6 +29,7 @@ describe('memory routes', () => {
 
   it('will get all of a logged in users memories', async() => {
     const loggedInUser = await getLoggedInUser();
+
     const memories = prepare(await Memory.find({ user: loggedInUser._id })
       .populate({
         path: 'photos',
@@ -81,7 +83,7 @@ describe('memory routes', () => {
       });
   });
 
-  it('can Delete a pho by id', async() => {
+  it('can Delete a memory by id', async() => {
     const loggedInUser = await getLoggedInUser();
     const memory = prepare(await Memory.findOne({ user: loggedInUser._id }));
 
