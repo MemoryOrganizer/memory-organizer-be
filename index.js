@@ -1,3 +1,4 @@
+// delete this file now :)
 require('dotenv').config();
 
 const express = require('express');
